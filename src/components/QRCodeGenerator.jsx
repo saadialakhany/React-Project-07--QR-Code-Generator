@@ -1,20 +1,34 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
+import QRCode from "react-qr-code";
+import "./style.css";
 
 const QRCodeGenerator = () => {
-  const inputValue = useRef();
+  const [input, setInput] = useState("");
+  const [qrCode, setQrCode] = useState("");
 
-  function handleClick() {
-    const value = inputValue.current.value;
-    console.log(value);
+  function handleQrCodeGeneration(e) {
+    setQrCode(input);
+    setInput("");
   }
   return (
     <div className="container">
       <h1>QR Code Generator</h1>
-      <input type="text" placeholder="Enter your Value here" ref={inputValue} />
-      <button className="btn" onClick={() => handleClick()}>
+      <input
+        type="text"
+        placeholder="Enter your Value here"
+        onChange={(e) => setInput(e.target.value)}
+        value={input}
+      />
+      <button
+        disabled={input === "" ? true : false}
+        className="btn"
+        onClick={handleQrCodeGeneration}
+      >
         Generate
       </button>
-      <div className="code--container"></div>
+      <div className="code--container">
+        <QRCode value={qrCode} />;
+      </div>
     </div>
   );
 };
